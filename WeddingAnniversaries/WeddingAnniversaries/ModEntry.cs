@@ -12,6 +12,8 @@ namespace WeddingAnniversaries
     /// <summary>The mod entry point.</summary>
     internal sealed class ModEntry : Mod
     {
+        private Dictionary<string, string> Dialogue;
+
         internal static IModHelper help = null!;
         internal static int kPeriod = 112;
         internal static string[] reminders = new string[3];
@@ -20,9 +22,6 @@ namespace WeddingAnniversaries
         {
             "Abigail", "Alex", "Elliott", "Emily", "Haley", "Harvey", "Leah", "Maru", "Penny", "Sam", "Shane", "Sebastian"
         };
-
-        /// <summary>The loaded data.</summary>
-         private Dictionary<string, string> Dialogue;
 
         /*********
         ** Public methods
@@ -42,14 +41,9 @@ namespace WeddingAnniversaries
             helper.Events.GameLoop.DayStarted += this.DayStarted;
         }
 
-        
-
         /*********
         ** Private methods
         *********/
-        /// <inheritdoc cref="IContentEvents.AssetRequested"/>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
         private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
         {
             //
@@ -75,12 +69,11 @@ namespace WeddingAnniversaries
         {
             //
             // 3. load the data
-            //    (This doesn't need to be in OnGameLaunched, you can load it later depending on your mod logic.)
             //
             this.Dialogue= Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
         }
 
-        /// <summary>Called once to setup the anniversary reminders</summary>
+        /// Called once to setup the anniversary reminders
         private void readAnniversaryReminders()
         {
             reminders[0] = help.Translation.Get("AnniversaryReminder.0").Default("Missing translation");
@@ -88,7 +81,7 @@ namespace WeddingAnniversaries
             reminders[2] = help.Translation.Get("AnniversaryReminder.2").Default("Missing translation");
         }
 
-        /// <summary>Populates the list with the appropriate text for each spouse</summary>
+        /// Populates the list with the appropriate text for each spouse
         /// <param name="key">Usually the spouse's name, but can be a value like "Bad" or "Default"</param>
         private void readAnniversaryText( string key )
         {
@@ -104,8 +97,8 @@ namespace WeddingAnniversaries
             }
         }
 
-        //1. Check if dialogue key exists in the asset. If so, use that.
-        //2. If it doesn't, create a new dialogue key and load directly from this mod's translation files
+        //Handles Anniversary Day dialogue
+        // Check the shared asset for a relevant key. If none exists, create one from this mod's set of default lines
         private void PushAnniversaryText(NPC npc)
         {
             //Refresh this, in case someone has written to it
@@ -171,6 +164,8 @@ namespace WeddingAnniversaries
             }
         }
 
+        //Handles Anniversary Reminder dialogue
+        // If the dialogue key doesn't exist in the shared asset, load in a random default line
         private void PushReminderText(NPC npc)
         {
             string nameKey = npc.getName();
@@ -200,9 +195,6 @@ namespace WeddingAnniversaries
             }
         }
 
-        /// <summary>The method called after a new day starts.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
         private void DayStarted(object sender, DayStartedEventArgs e)
         {
             // Get days married
@@ -225,16 +217,16 @@ namespace WeddingAnniversaries
                 }
                 else if (friendship.DaysMarried <= 0)
                 {
-                    this.Monitor.Log($"{Game1.player.Name} wedding date with {spouse.getName()}: {friendship.WeddingDate}", LogLevel.Debug);
+                    //this.Monitor.Log($"{Game1.player.Name} wedding date with {spouse.getName()}: {friendship.WeddingDate}", LogLevel.Debug);
                     continue;
                 }
 
-                this.Monitor.Log($"{Game1.player.Name} married to {spouse.getName()} for {friendship.DaysMarried} days.", LogLevel.Debug);
+                //this.Monitor.Log($"{Game1.player.Name} married to {spouse.getName()} for {friendship.DaysMarried} days.", LogLevel.Debug);
 
                 //Anniversary text on the day
                 if( friendship.DaysMarried % kPeriod == 0 )
                 {
-                    this.Monitor.Log($"{Game1.player.Name}'s anniversary day with {spouse.getName()}", LogLevel.Debug);
+                    this.Monitor.Log($"It's {Game1.player.Name}'s anniversary day with {spouse.getName()}", LogLevel.Debug);
                     PushAnniversaryText(spouse);
                 }
 
