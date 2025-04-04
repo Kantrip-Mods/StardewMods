@@ -17,8 +17,9 @@ namespace WeddingAnniversaries
 
         internal static IModHelper help = null!;
         internal static int kPeriod = 112;
-        internal static string[] reminders = new string[3];
-        internal static string[] annivText = new string[5];
+        internal static string[] kReminders = new string[3];
+        internal static string[] kAnnivLines = new string[5];
+        internal static string kGifts = "";
         internal static string[] supportedSpouses = new string[12]
         {
             "Abigail", "Alex", "Elliott", "Emily", "Haley", "Harvey", "Leah", "Maru", "Penny", "Sam", "Shane", "Sebastian"
@@ -38,7 +39,8 @@ namespace WeddingAnniversaries
             this.Config = this.Helper.ReadConfig<ModConfig>();
             helper.Events.Content.AssetRequested += this.OnAssetRequested;
             helper.Events.Content.AssetReady += this.OnAssetReady;
-            helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
+            //helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
+            helper.Events.GameLoop.GameLaunched += this.OnSaveLoaded;
 
             helper.Events.GameLoop.DayStarted += this.DayStarted;
         }
@@ -72,102 +74,122 @@ namespace WeddingAnniversaries
             //
             // 3. load the data
             //
-            this.Dialogue= Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
+            this.Dialogue = Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
+        }
+
+        private void OnSaveLoaded(object sender, GameLaunchedEventArgs e)
+        {
+            //
+            // 3. load the data
+            //
+            this.Dialogue = Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
         }
 
         /// Called once to setup the anniversary reminders
         private void readAnniversaryReminders()
         {
-            reminders[0] = help.Translation.Get("AnniversaryReminder.0").Default("Missing translation");
-            reminders[1] = help.Translation.Get("AnniversaryReminder.1").Default("Missing translation");
-            reminders[2] = help.Translation.Get("AnniversaryReminder.2").Default("Missing translation");
+            kReminders[0] = help.Translation.Get("AnniversaryReminder.0").Default("Missing translation");
+            kReminders[1] = help.Translation.Get("AnniversaryReminder.1").Default("Missing translation");
+            kReminders[2] = help.Translation.Get("AnniversaryReminder.2").Default("Missing translation");
         }
 
         /// Populates the list with the appropriate text for each spouse
         /// <param name="key">Usually the spouse's name, but can be a value like "Bad" or "Default"</param>
-        private void readAnniversaryText( string key )
+        private void readAnniversaryLines( string key )
         {
+            string dialogueKey = key + ".Anniversary";
             if( this.Config.ExtraDebugging ){
-                this.Monitor.Log($"current dialogue key: {key}.", LogLevel.Debug);
+                this.Monitor.Log($"current dialogue key: {dialogueKey}.", LogLevel.Debug);
             }
 
             for( int ct = 0; ct < 5; ct++ )
             {
-                string lineKey =  key + ".Anniversary." + ct;
-                string line = help.Translation.Get(lineKey);
-
-                string giftKey = key + ".gifts";
-                string gifts = help.Translation.Get(giftKey).Default("Missing translation");
-                annivText[ct] = line + " [" + gifts + "]";
+                string lineKey =  dialogueKey + "." + ct;
+                string line = help.Translation.Get(lineKey).Default("Missing translation");
+                kAnnivLines[ct] = line;
             }
         }
+        
+        //This is a single line, not a group
+        private void readGifts( string key )
+        {
+            string giftKey = key + ".gifts";
+            if( this.Config.ExtraDebugging ){
+                this.Monitor.Log($"current gifts key: {giftKey}.", LogLevel.Debug);
+            }
 
-        //Handles Anniversary Day dialogue
+            string lineRead = help.Translation.Get(giftKey).Default("Missing translation");
+            kGifts = lineRead;
+        }
+
+        //Handles Anniversary Day dialogue (and gifts)
         // Check the shared asset for a relevant key. If none exists, create one from this mod's set of default lines
         private void PushAnniversaryText(NPC npc)
         {
-            //Refresh this, in case someone has written to it
-            this.Dialogue = Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
-
             string nameKey = npc.getName();
             string dialogueKey = "Anniversary_" + nameKey;
             string giftsKey = "Gifts_" + nameKey;
+            string defaultKey = nameKey; //In case we need to fall back to this mod's own i18n
+
+            if (Game1.player.getFriendshipHeartLevelForNPC(nameKey) < 9)
+            {
+                dialogueKey += "_Bad";
+                giftsKey += "_Bad";
+                defaultKey = "Bad";
+            }
+            else if( !supportedSpouses.Contains(nameKey) )
+            {
+                defaultKey = "Default";
+            }
             
-            bool lineFound = false;
+            //Get the appropriate line from the resource, or from this mod:
             string anniversaryLine = "";
-            string anniversaryGifts = "";
             if (this.Dialogue.TryGetValue(dialogueKey, out string? dialogue))
             {
-                lineFound = true;
                 anniversaryLine = dialogue;
             }
             else{
+                //Re-populate the list with values for the current spouse
+                readAnniversaryLines(defaultKey);
+
+                //Get a random one
+                int idx = Random.Shared.Next(0,4);
+                anniversaryLine = kAnnivLines[idx];
+
                 if( this.Config.ExtraDebugging ){
-                    this.Monitor.Log($"Unable to load anniversary line from {dialogueKey}", LogLevel.Debug);
+                    this.Monitor.Log($"No anniversary line set for {npc.getName()} with key {dialogueKey}", LogLevel.Debug);
+                    this.Monitor.Log($"Anniversary line chosen from WA [{defaultKey}]: {anniversaryLine}", LogLevel.Debug);
                 }
+                dialogueKey = "Anniversary_" + defaultKey;
             }
 
             //Make sure gifts are populated
+            string anniversaryGifts = "";
             if( this.Dialogue.TryGetValue(giftsKey, out string? gifts ))
             {
                 anniversaryGifts = gifts;
-                anniversaryLine += " [" + anniversaryGifts + " ]";
             }
-            else{ //fallback to default
-                anniversaryGifts = help.Translation.Get("Default.gifts").Default("62 72 797 595");
-                anniversaryLine += " [" + anniversaryGifts + " ]";
-            }
+            else{ 
+                
+                //get the correct gift list
+                readGifts(defaultKey);
+                anniversaryGifts = kGifts;
 
-            //Couldn't find the line we needed on the resource, so ignore what we just did and pull it 
-            // directly from this mod's i18n
-            if( !lineFound )
-            {
-                string i18nKey = nameKey;
-                if( !supportedSpouses.Contains(nameKey) )
-                {
-                    i18nKey = "Default";
+                if( this.Config.ExtraDebugging ){
+                    this.Monitor.Log($"No anniversary gifts set for {nameKey} with key {giftsKey}", LogLevel.Debug);
+                    this.Monitor.Log($"Gifts chosen from WA [{defaultKey}]: {anniversaryGifts}", LogLevel.Debug);
                 }
-
-                if (Game1.player.getFriendshipHeartLevelForNPC(nameKey) < 9)
-                {
-                    i18nKey = "Bad";    
-                }
-
-                //Re-populate the list with values for the current spouse
-                readAnniversaryText(i18nKey);
-                int idx = Random.Shared.Next(0,4);
-                anniversaryLine = annivText[idx];
-
-                dialogueKey = "Anniversary_" + i18nKey;
             }
 
             //Overwrite the dialogue now
             if(!string.IsNullOrEmpty(anniversaryLine))
             {
+                //Join dialogue and gifts
+                anniversaryLine += " [ " + anniversaryGifts + " ]";
+
                 npc.CurrentDialogue.Clear();
                 npc.currentMarriageDialogue.Clear();
-                npc.CurrentDialogue.Clear();
-                npc.CurrentDialogue.Push(new Dialogue(npc, dialogueKey, anniversaryLine) { removeOnNextMove = true });
+                npc.CurrentDialogue.Push(new Dialogue(npc, dialogueKey, anniversaryLine) { removeOnNextMove = false });
             }
         }
 
@@ -177,33 +199,38 @@ namespace WeddingAnniversaries
         {
             string nameKey = npc.getName();
             string dialogueKey = "Reminder_" + nameKey;
-            
-            bool foundOnResource = false;
+
             string reminderLine = "";
-            if (npc.Dialogue.TryGetValue(dialogueKey, out string? dialogue))
+            if (this.Dialogue.TryGetValue(dialogueKey, out string? dialogue))
             {
-                foundOnResource = true;
                 reminderLine = dialogue;
             }
+            else{
 
-            if( !foundOnResource )
-            {
-                //Re-populate the list with values for the current spouse
+                //There is only one seet of default reminders, and it is already populated
                 int idx = Random.Shared.Next(0,2);
-                reminderLine = reminders[idx];
+                reminderLine = kReminders[idx];
+
+                if( this.Config.ExtraDebugging ){
+                    this.Monitor.Log($"Unable to load anniversary reminder from {dialogueKey}", LogLevel.Debug);
+                    this.Monitor.Log($"Default reminder line chosen: {reminderLine}", LogLevel.Debug);
+                }
             }
 
             if(!string.IsNullOrEmpty(reminderLine))
             {
                 npc.CurrentDialogue.Clear();
                 npc.currentMarriageDialogue.Clear();
-                npc.CurrentDialogue.Clear();
-                npc.CurrentDialogue.Push(new Dialogue(npc, dialogueKey, reminderLine) { removeOnNextMove = true });
+                npc.CurrentDialogue.Push(new Dialogue(npc, dialogueKey, reminderLine) { removeOnNextMove = false });
             }
         }
 
+        [EventPriority(EventPriority.Low)]
         private void DayStarted(object sender, DayStartedEventArgs e)
         {
+            //Refresh this, in case someone has written to it
+            this.Dialogue = Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
+
             // Get days married
             int DaysMarried = Game1.player.GetDaysMarried();
             StardewValley.Network.NetStringDictionary<Friendship, Netcode.NetRef<Friendship>> fData = Game1.player.friendshipData;
@@ -222,7 +249,7 @@ namespace WeddingAnniversaries
                     //this.Monitor.Log($"{Game1.player.Name} not married to {spouse.getName()} ({name}).", LogLevel.Debug);
                     continue;
                 }
-                else if (friendship.DaysMarried <= 0)
+                else if (friendship.DaysMarried <= 0) //This is a weird case
                 {
                     if( this.Config.ExtraDebugging)
                     {
