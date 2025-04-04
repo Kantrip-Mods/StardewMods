@@ -13,6 +13,7 @@ namespace WeddingAnniversaries
     internal sealed class ModEntry : Mod
     {
         private Dictionary<string, string> Dialogue;
+        private ModConfig Config;
 
         internal static IModHelper help = null!;
         internal static int kPeriod = 112;
@@ -34,6 +35,7 @@ namespace WeddingAnniversaries
             
             readAnniversaryReminders();
 
+            this.Config = this.Helper.ReadConfig<ModConfig>();
             helper.Events.Content.AssetRequested += this.OnAssetRequested;
             helper.Events.Content.AssetReady += this.OnAssetReady;
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
@@ -85,7 +87,10 @@ namespace WeddingAnniversaries
         /// <param name="key">Usually the spouse's name, but can be a value like "Bad" or "Default"</param>
         private void readAnniversaryText( string key )
         {
-            this.Monitor.Log($"current dialogue key: {key}.", LogLevel.Debug);
+            if( this.Config.ExtraDebugging ){
+                this.Monitor.Log($"current dialogue key: {key}.", LogLevel.Debug);
+            }
+
             for( int ct = 0; ct < 5; ct++ )
             {
                 string lineKey =  key + ".Anniversary." + ct;
@@ -117,7 +122,9 @@ namespace WeddingAnniversaries
                 anniversaryLine = dialogue;
             }
             else{
-                this.Monitor.Log($"Unable to load anniversary line from {dialogueKey}", LogLevel.Debug);
+                if( this.Config.ExtraDebugging ){
+                    this.Monitor.Log($"Unable to load anniversary line from {dialogueKey}", LogLevel.Debug);
+                }
             }
 
             //Make sure gifts are populated
@@ -217,11 +224,16 @@ namespace WeddingAnniversaries
                 }
                 else if (friendship.DaysMarried <= 0)
                 {
-                    //this.Monitor.Log($"{Game1.player.Name} wedding date with {spouse.getName()}: {friendship.WeddingDate}", LogLevel.Debug);
+                    if( this.Config.ExtraDebugging)
+                    {
+                        this.Monitor.Log($"{Game1.player.Name} wedding date with {spouse.getName()}: {friendship.WeddingDate}", LogLevel.Debug);
+                    }
                     continue;
                 }
 
-                //this.Monitor.Log($"{Game1.player.Name} married to {spouse.getName()} for {friendship.DaysMarried} days.", LogLevel.Debug);
+                if( this.Config.ExtraDebugging ){
+                    this.Monitor.Log($"{Game1.player.Name} married to {spouse.getName()} for {friendship.DaysMarried} days.", LogLevel.Debug);
+                }
 
                 //Anniversary text on the day
                 if( friendship.DaysMarried % kPeriod == 0 )
