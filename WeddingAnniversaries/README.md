@@ -70,3 +70,6 @@ Special thanks to:
 * ApryllForever, who helped me figure out what was required to make this work with hers (and who put in a bunch of work on my behalf)
 * TheMightyAmondee, who created a new custom token to make the first version of this mod work
 * Mushymato, who gently pointed me in the right direction on several occasions.
+
+## Included Translations
+* Spanish: thanks and credit to Nexus user devy003

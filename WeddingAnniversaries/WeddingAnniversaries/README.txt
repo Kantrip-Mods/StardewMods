@@ -29,9 +29,12 @@ https://github.com/Kantrip-Mods/StardewMods/blob/main/WeddingAnniversaries
    on the correct day. FWIW, the vast majority of times I ran date/time console commands with this mod active,
    everything was fine.
 
+##:: INCLUDED TRANSLATIONS ::
+* Spanish: thanks and credit to Nexus user devy003
 
 ##::  CREDITS ::
 * Atravita, for the clever little idea with the i18n exploit that allowed random gifts to actually work, based on the spouse token
 * ApryllForever (author of PolySweet) for her tireless help, working with me to get this mod compatible with hers
 * TheMightyAmondee, for creating a custom days married token that I used in the first (CP only) version of this mod
 * Mushymato for gently nudging me in the right direction on multiple occasions
+
