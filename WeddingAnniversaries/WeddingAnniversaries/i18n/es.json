@@ -17,8 +17,9 @@
     "Bad.Anniversary.2": "Hmmmmmm... no has estado mucho por aquí, así que no tuve la oportunidad de preguntarte qué querías para nuestro aniversario.$s#$b#Supongo que esto tendrá que bastar.",
     "Bad.Anniversary.3": "¿Aniversario? Oh, supongo que sí.$s#$b#Aquí tienes.",
     "Bad.Anniversary.4": "Parece que hoy es nuestro aniversario,cariño. Cómo pasa el tiempo.$s#$b#Aquí, te conseguí algo.#$b#No te preocupes, no espero nada a cambio.$s",
+    
     //BACHELORS
-
+    
     "Alex.Anniversary.0": "¡Hola, ${granjero^granjera}$! Feliz aniversario.$h",
     "Alex.Anniversary.1": "Feliz aniversario, @!$h#$b#¿Qué, creíste que lo olvidaría?$l",
     "Alex.Anniversary.2": "¡Hey, @ -- atrapa!#$b#Feliz aniversario.$l",
@@ -54,6 +55,7 @@
     "Shane.Anniversary.2": "Ok, pensé en qué regalarte para nuestro aniversario durante todo el año. Espero que te guste, @.$l",
     "Shane.Anniversary.3": "Aquí tienes, @. Feliz aniversario.$l#$b#No estaba seguro de qué regalarte este año, así que le pedí consejo a Marnie y Jas.",
     "Shane.Anniversary.4": "Jas me dijo que debía regalarte alas de hada para nuestro aniversario este año.#$b#Pero pensé que probablemente preferirías esto.$h#$b#Feliz aniversario.$l",
+   
     //BACHELORETTES
 
     "Abigail.Anniversary.0": "¡Hey, @ -- feliz aniversario!$l#$b#Vivir contigo ha sido toda una aventura.$h",
@@ -92,14 +94,8 @@
     "Penny.Anniversary.3": "Pasé mucho tiempo pensando en qué regalarte este año.#$b#Un tiempo vergonzosamente largo, de hecho.$s#$b#Pero aquí tienes... Espero que esto te haga sentir especial hoy. Feliz aniversario, @.",
     "Penny.Anniversary.4": "¡Feliz aniversario, @!$h#$b#Estuve hablando con los niños sobre ello ayer. ¡Vincent intentó darme un caracol para regalártelo!#$b#Lo dejé en libertad en nuestro jardín. Espero que esto sirva en su lugar.$l",
 
-    //Mod support - Kantrip's Older Sebastian
-    "OlderSeb.Anniversary.0": "Hey, ${granjero^granjeral}$, feliz aniversario.$l#$b#Te conseguí algo. No es gran cosa, pero... espero que te guste.",
-    "OlderSeb.Anniversary.1": "%Sebastián te envuelve en un largo abrazo.#$b#Feliz aniversario, ${granjero^granjeral}$.$l",
-    "OlderSeb.Anniversary.2": "Está bien, @. Cierra los ojos... ¡y deja de sonreír así!$h#$b#%Sebastián deja algo en tus manos.#$b#No es gran cosa, pero espero que te guste. Feliz aniversario, ${granjero^granjeral}$.$l",
-    "OlderSeb.Anniversary.3": "Hey, ${granjero^granjeral}$. Esto es para ti.$h#$b#He ahorrado un poco de cada sueldo para poder consentirte hoy. Feliz aniversario.$l",
-    "OlderSeb.Anniversary.4": "Está bien, ${granjero^granjeral}$. Pensé mucho en tu regalo este año, así que por favor no te rías si es demasiado cursi.#$b#Eres mi mundo, @. Feliz aniversario.$l",
-
     //Gifts Lists -- DON'T TRANSLATE THESE!!!
+
     "Default.gifts": "62 72 797 595 StardropTea 221 873 525 527 521 PurpleBook SkillBook_0",
 
     "Bad.gifts": "(O)196 (O)167 (O)194 (O)18 (O)22 (O)402 (O)418 (O)206 Book_Friendship (F)1402",
@@ -107,7 +103,7 @@
     "Abigail.gifts": "(TR)MagicHairDye (O)859 AbigailsBow (W)40 (F)WizardTable (H)51",
     "Alex.gifts": "(TR)MagicHairDye (W)25 (O)521 (O)191 (F)1762 (H)20",
     "Elliott.gifts": "(W)35 (O)810 TricornHat (O)191 (F)1748 (O)866 (F)2421",
-    "Emily.gifts": "(O)524 (S)1052 (O)74 (S)1039 (H)41)",
+    "Emily.gifts": "(O)524 (S)1052 (O)74 (S)1039 (H)41",
     "Haley.gifts": "(W)42 (O)525 ArtPhoto ArtPhoto2 (O)221 (H)47 (F)1974",
     "Harvey.gifts": "(W)37 (O)860 RadioDesk ModelPlanes (F)724 (H)89",
     "Leah.gifts": "(W)39 (O)839 ShortBookcase (F)88 (F)1283 (H)90",
@@ -116,8 +112,4 @@
     "Sam.gifts": "SamsSkateboard (W)30 (O)528 (H)JojaCap (F)1309 (F)JojaColaTeaTable",
     "Sebastian.gifts": "(W)41 (O)522 (F)1289 (F)1563 (F)1600 (H)DarkVelvetBow",
     "Shane.gifts": "ChickenDecal (O)863 (S)1246 (H)10 (F)1960 (F)1761",
-
-    //Mod support - Kantrip's Older Sebastian
-    "OlderSeb.gifts": "(W)41 (O)861 (F)2514 (F)1563 (F)1959 (H)83"
-
 }
