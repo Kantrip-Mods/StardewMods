@@ -37,7 +37,33 @@ Wedding Anniversaries creates a custom Dialogue asset that can be written to via
 },
 ```
 
-You can, of course, use CP to randomize those lines to your heart's content. WeddingAnniversaries contains a set of five lines for each NPC by default, as well as a gift lift of unique item ids for each of the vanilla spouses.
+You can use CP to randomize these keys to your heart's content. WeddingAnniversaries contains a set of five lines for each NPC by default, as well as a gift lift of about eight unique item ids for each of the vanilla spouses.
+
+Here's an example from my dialogue mod, Older Sebastian:
+```json
+{
+    "Action": "EditData",
+    "Target": "Mods/Kantrip.WeddingAnniversaries/Dialogue",
+    "When": {
+        "HasMod": "Kantrip.WeddingAnniversaries",
+    },
+    "Entries": {
+        "Reminder_Sebastian": "{{i18n:OlderSeb.Reminder.{{Random:{{Range:0,2}}}}}}",  //a random set of 3 lines, specified in i18n
+        "Anniversary_Sebastian": "{{i18n:OlderSeb.Anniversary.{{Random:{{Range:0,4}}}}}}", //a random set of 5 lines, specified in i18n
+        "Gifts_Sebastian": "{{i18n:OlderSeb.gifts}}", //the space-separated list of gift IDs
+    }
+},
+```
+
+## Dialogue Keys
+This mod respects the following dialogue keys:
+* Reminder_<NPCname>: This is the text that will show a week in advance of the NPC spouse's anniversary with the player
+* Anniversary_<NPCname>: The anniversary day greeting
+* Anniversary_<NPCname>_Bad: The anniversary day greeting if the player is at less than 9 hearts with the NPC spouse
+* Gifts_<NPCname>: A space-separated list of object IDs. One will be randomly selected to give to the player on the anniversary day
+* Gifts_<NPCname>_Bad: A space-separated list of object IDs. This list is used when the player is less than 9 hearts with the NPC spouse
+
+If none of the above dialogue keys are specified, WeddingAnniversaries will fall back on its own list of defaults. This includes generic text and gifts for NPCs that aren't one of the twelve vanilla bachelors/bachelorettes.
 
 ## Credits
 Special thanks to:
