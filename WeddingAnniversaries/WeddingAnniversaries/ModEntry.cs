@@ -39,8 +39,8 @@ namespace WeddingAnniversaries
             this.Config = this.Helper.ReadConfig<ModConfig>();
             helper.Events.Content.AssetRequested += this.OnAssetRequested;
             helper.Events.Content.AssetReady += this.OnAssetReady;
-            //helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
-            helper.Events.GameLoop.GameLaunched += this.OnSaveLoaded;
+            //helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
+            helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
 
             helper.Events.GameLoop.DayStarted += this.DayStarted;
         }
@@ -77,7 +77,7 @@ namespace WeddingAnniversaries
             this.Dialogue = Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
         }
 
-        private void OnSaveLoaded(object sender, GameLaunchedEventArgs e)
+        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
             //
             // 3. load the data
@@ -232,9 +232,7 @@ namespace WeddingAnniversaries
             this.Dialogue = Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.WeddingAnniversaries/Dialogue");
 
             // Get days married
-            int DaysMarried = Game1.player.GetDaysMarried();
-            StardewValley.Network.NetStringDictionary<Friendship, Netcode.NetRef<Friendship>> fData = Game1.player.friendshipData;
-             
+            int DaysMarried = Game1.player.GetDaysMarried();             
             foreach (string name in Game1.player.friendshipData.Keys)
             {
                 NPC spouse = Game1.getCharacterFromName(name);
