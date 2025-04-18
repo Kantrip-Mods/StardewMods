@@ -79,8 +79,8 @@ namespace SpecialSpouseDialogue
             this.Dialogue = Game1.content.Load<Dictionary<string, string>>("Mods/Kantrip.SpecialSpouseDialogue/Dialogue");
         }
 
-        //Handles Anniversary Day dialogue (and gifts)
-        // Check the shared asset for a relevant key. If none exists, create one from this mod's set of default lines
+        //Handles Special Dialogue 
+        // Check the shared asset for a relevant key. If none exists, ignore
         private void PushSpouseDialogue(NPC npc)
         {
             string nameKey = npc.getName();
