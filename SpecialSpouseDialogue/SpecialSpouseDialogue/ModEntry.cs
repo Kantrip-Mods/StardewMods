@@ -89,7 +89,6 @@ namespace SpecialSpouseDialogue
             {
                 dialogueKey = "Night_" + nameKey;
             }
-            string defaultKey = nameKey; //In case we need to fall back to this mod's own i18n
             
             //Get the appropriate line from the resource
             string dialogueLine = "";
