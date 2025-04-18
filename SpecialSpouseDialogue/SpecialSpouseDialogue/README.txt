@@ -1,5 +1,5 @@
 #SPECIAL SPOUSE DIALOGUE: 
-A SMAPI mod that allows CP mods to easily overwrite spouse dialogue on special occasions.
+A SMAPI mod that allows Content Patcher mods to easily overwrite spouse dialogue on special occasions.
 
 ##:: REQUIREMENTS ::
 + SMAPI
