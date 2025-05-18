@@ -124,14 +124,14 @@ namespace WeddingAnniversaries
 
         //Handles Anniversary Day dialogue (and gifts)
         // Check the shared asset for a relevant key. If none exists, create one from this mod's set of default lines
-        private void PushAnniversaryText(NPC npc)
+        private void PushAnniversaryText(NPC npc, int hearts)
         {
-            string nameKey = npc.getName();
+            string nameKey = npc.Name;
             string dialogueKey = "Anniversary_" + nameKey;
             string giftsKey = "Gifts_" + nameKey;
             string defaultKey = nameKey; //In case we need to fall back to this mod's own i18n
 
-            if (Game1.player.getFriendshipHeartLevelForNPC(nameKey) < 9)
+            if (hearts < 9)
             {
                 dialogueKey += "_Bad";
                 giftsKey += "_Bad";
@@ -157,7 +157,7 @@ namespace WeddingAnniversaries
                 anniversaryLine = kAnnivLines[idx];
 
                 if( this.Config.ExtraDebugging ){
-                    this.Monitor.Log($"No anniversary line set for {npc.getName()} with key {dialogueKey}", LogLevel.Debug);
+                    this.Monitor.Log($"No anniversary line set for {npc.Name} with key {dialogueKey}", LogLevel.Debug);
                     this.Monitor.Log($"Anniversary line chosen from WA [{defaultKey}]: {anniversaryLine}", LogLevel.Debug);
                 }
                 dialogueKey = "Anniversary_" + defaultKey;
@@ -197,7 +197,7 @@ namespace WeddingAnniversaries
         // If the dialogue key doesn't exist in the shared asset, load in a random default line
         private void PushReminderText(NPC npc)
         {
-            string nameKey = npc.getName();
+            string nameKey = npc.Name;
             string dialogueKey = "Reminder_" + nameKey;
 
             string reminderLine = "";
@@ -242,35 +242,37 @@ namespace WeddingAnniversaries
                 }
 
                 Friendship friendship = Game1.player.friendshipData[name];
-                if( !spouse.isMarried() )
+                if (!spouse.isMarried())
                 {
-                    //this.Monitor.Log($"{Game1.player.Name} not married to {spouse.getName()} ({name}).", LogLevel.Debug);
+                    //this.Monitor.Log($"{Game1.player.Name} not married to {spouse.Name} ({name}).", LogLevel.Debug);
                     continue;
                 }
                 else if (friendship.DaysMarried <= 0) //This is a weird case
                 {
-                    if( this.Config.ExtraDebugging)
+                    if (this.Config.ExtraDebugging)
                     {
-                        this.Monitor.Log($"{Game1.player.Name} wedding date with {spouse.getName()}: {friendship.WeddingDate}", LogLevel.Debug);
+                        this.Monitor.Log($"{Game1.player.Name} wedding date with {spouse.Name}: {friendship.WeddingDate}", LogLevel.Debug);
                     }
                     continue;
                 }
 
-                if( this.Config.ExtraDebugging ){
-                    this.Monitor.Log($"{Game1.player.Name} married to {spouse.getName()} for {friendship.DaysMarried} days.", LogLevel.Debug);
+                int hearts = friendship.Points / 250;
+                if (this.Config.ExtraDebugging)
+                {
+                    this.Monitor.Log($"{Game1.player.Name} married to {spouse.Name} for {friendship.DaysMarried} days. ({hearts} hearts)", LogLevel.Debug);
                 }
 
                 //Anniversary text on the day
-                if( friendship.DaysMarried % kPeriod == 0 )
+                if (friendship.DaysMarried % kPeriod == 0)
                 {
-                    this.Monitor.Log($"It's {Game1.player.Name}'s anniversary day with {spouse.getName()}", LogLevel.Debug);
-                    PushAnniversaryText(spouse);
+                    this.Monitor.Log($"It's {Game1.player.Name}'s anniversary day with {spouse.Name}", LogLevel.Debug);
+                    PushAnniversaryText(spouse, hearts);
                 }
 
                 //Anniversary reminders one week before
-                else if(friendship.DaysMarried % kPeriod == (kPeriod - 7))
+                else if (friendship.DaysMarried % kPeriod == (kPeriod - 7))
                 {
-                    this.Monitor.Log($"Time for an anniversary reminder from {spouse.getName()}", LogLevel.Debug);
+                    this.Monitor.Log($"Time for an anniversary reminder from {spouse.Name}", LogLevel.Debug);
                     PushReminderText(spouse);
                 }
             }

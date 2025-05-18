@@ -83,7 +83,7 @@ namespace SpecialSpouseDialogue
         // Check the shared asset for a relevant key. If none exists, ignore
         private void PushSpouseDialogue(NPC npc)
         {
-            string nameKey = npc.getName();
+            string nameKey = npc.Name;
             string dialogueKey = "Morning_" + nameKey;
             if( !morningDialogue )
             {
@@ -98,7 +98,7 @@ namespace SpecialSpouseDialogue
             }
             else{
                 if( this.Config.ExtraDebugging ){
-                    this.Monitor.Log($"No dialogue line set for {npc.getName()} with key {dialogueKey}", LogLevel.Debug);
+                    this.Monitor.Log($"No dialogue line set for {npc.Name} with key {dialogueKey}", LogLevel.Debug);
                 }
                 return;
             }
@@ -129,12 +129,12 @@ namespace SpecialSpouseDialogue
                 Friendship friendship = Game1.player.friendshipData[name];
                 if( !spouse.isMarried() )
                 {
-                    //this.Monitor.Log($"{Game1.player.Name} not married to {spouse.getName()} ({name}).", LogLevel.Debug);
+                    //this.Monitor.Log($"{Game1.player.Name} not married to {spouse.Name} ({name}).", LogLevel.Debug);
                     continue;
                 }
               
                 if( this.Config.ExtraDebugging ){
-                    this.Monitor.Log($"{Game1.player.Name} married to {spouse.getName()}.", LogLevel.Debug);
+                    this.Monitor.Log($"{Game1.player.Name} married to {spouse.Name}.", LogLevel.Debug);
                 }
 
                 PushSpouseDialogue(spouse);
@@ -164,12 +164,12 @@ namespace SpecialSpouseDialogue
                     Friendship friendship = Game1.player.friendshipData[name];
                     if( !spouse.isMarried() )
                     {
-                        //this.Monitor.Log($"{Game1.player.Name} not married to {spouse.getName()} ({name}).", LogLevel.Debug);
+                        //this.Monitor.Log($"{Game1.player.Name} not married to {spouse.Name} ({name}).", LogLevel.Debug);
                         continue;
                     }
                 
                     if( this.Config.ExtraDebugging ){
-                        this.Monitor.Log($"{Game1.player.Name} married to {spouse.getName()}.", LogLevel.Debug);
+                        this.Monitor.Log($"{Game1.player.Name} married to {spouse.Name}.", LogLevel.Debug);
                     }
 
                     PushSpouseDialogue(spouse);
