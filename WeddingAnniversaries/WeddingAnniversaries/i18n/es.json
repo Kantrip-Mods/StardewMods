@@ -97,19 +97,19 @@
     //Gifts Lists -- DON'T TRANSLATE THESE!!!
 
     "Default.gifts": "62 72 797 595 StardropTea 221 873 525 527 521 PurpleBook SkillBook_0",
-
+    
     "Bad.gifts": "(O)196 (O)167 (O)194 (O)18 (O)22 (O)402 (O)418 (O)206 Book_Friendship (F)1402",
-
+    
     "Abigail.gifts": "(TR)MagicHairDye (O)859 AbigailsBow (W)40 (F)WizardTable (H)51",
     "Alex.gifts": "(TR)MagicHairDye (W)25 (O)521 (O)191 (F)1762 (H)20",
-    "Elliott.gifts": "(W)35 (O)810 TricornHat (O)191 (F)1748 (O)866 (F)2421",
-    "Emily.gifts": "(O)524 (S)1052 (O)74 (S)1039 (H)41",
+    "Elliott.gifts": "(W)35 (O)859 TricornHat (O)191 (F)1748 (F)2421",
+    "Emily.gifts": "(W)3 (O)524 (S)1052 (O)74 (S)1039 (H)41",
     "Haley.gifts": "(W)42 (O)525 ArtPhoto ArtPhoto2 (O)221 (H)47 (F)1974",
     "Harvey.gifts": "(W)37 (O)860 RadioDesk ModelPlanes (F)724 (H)89",
     "Leah.gifts": "(W)39 (O)839 ShortBookcase (F)88 (F)1283 (H)90",
-    "Maru.gifts": "(W)36 (O)811 (O)337 (S)1188 (F)PeriodicTable (F)1907 (H)84",
+    "Maru.gifts": "(W)36 (O)859 (O)337 (S)1188 (F)PeriodicTable (F)1907 (H)84",
     "Penny.gifts": "(W)38 (O)861 (F)RetroBookcase (F)BookStack (O)PurpleBook (H)50",
-    "Sam.gifts": "SamsSkateboard (W)30 (O)528 (H)JojaCap (F)1309 (F)JojaColaTeaTable",
-    "Sebastian.gifts": "(W)41 (O)522 (F)1289 (F)1563 (F)1600 (H)DarkVelvetBow",
-    "Shane.gifts": "ChickenDecal (O)863 (S)1246 (H)10 (F)1960 (F)1761",
+    "Sam.gifts": "SamsSkateboard (W)30 (O)859 (H)JojaCap (F)1309 (F)JojaColaTeaTable",
+    "Sebastian.gifts": "(W)41 (O)862 (F)1289 (F)1563 (F)1600 (H)78",
+    "Shane.gifts": "ChickenDecal (O)863 (S)1246 (S)1180 (H)10 (F)1960 (F)1761",
 }
