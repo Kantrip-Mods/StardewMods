@@ -1,0 +1,16 @@
+{
+    "Name": "Sweet Tokens",
+    "Author": "Kantrip",
+    "Version": "1.0",
+    "Description": "Adds custom relationship tokens",
+    "UniqueID": "Kantrip.SweetTokens",
+    "EntryDll": "SweetTokens.dll",
+    "MinimumApiVersion": "4.0.0",
+    "UpdateKeys": [""],
+    "Dependencies": [
+        {
+        "UniqueID": "Pathoschild.ContentPatcher",
+        "IsRequired": true
+        }
+    ]
+  }
