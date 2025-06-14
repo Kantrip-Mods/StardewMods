@@ -4,6 +4,7 @@ A mod that adds a couple of new relationship tokens for Content Patcher.
 * Suitors
 * MaxHeartSuitors: requires a "type" input (vanilla, custom)
 * RivalSuitors: requires a "for" input (an NPC name)
+* IsEngaged: requires a "player" input (host/local)
 
 ## For Mod Authors
 

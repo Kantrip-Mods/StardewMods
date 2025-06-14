@@ -44,7 +44,7 @@ namespace SweetTokens
         internal static SuitorsToken SuitorsToken { get; private set; } = new SuitorsToken();
         internal static MaxHeartSuitorsToken MaxHeartSuitorsToken { get; private set; } = new MaxHeartSuitorsToken();
         internal static RivalSuitorsToken RivalSuitorsToken { get; private set; } = new RivalSuitorsToken();
-
+        internal static PartnerToken PartnerToken { get; private set; } = new PartnerToken();
 
         /*********
         ** Public methods
@@ -72,6 +72,7 @@ namespace SweetTokens
                 api.RegisterToken(Globals.Manifest, "Suitors", SuitorsToken);
                 api.RegisterToken(Globals.Manifest, "MaxHeartSuitors", MaxHeartSuitorsToken);
                 api.RegisterToken(Globals.Manifest, "RivalSuitors", RivalSuitorsToken);
+                api.RegisterToken(Globals.Manifest, "Partner", PartnerToken);
 
                 Globals.Monitor.Log($"Finished registering sweet tokens");
             }

@@ -312,9 +312,9 @@ namespace SweetTokens
             }
         }
     }
-    
+
     internal class RivalSuitorsToken : BaseToken
-    {        
+    {
         /// <summary>The list of suitors as of the last context update.</summary>
         internal List<NPC> cachedSuitors = new List<NPC>();
 
@@ -332,14 +332,14 @@ namespace SweetTokens
         /// <summary>Whether the token may return multiple values for the given input.</summary>
         /// <param name="input">The input arguments, if applicable.</param>
 		public override bool CanHaveMultipleValues(string input = null)
-		{
-			return (cachedSuitors.Count > 1);
-		}
+        {
+            return (cachedSuitors.Count > 1);
+        }
 
         public override bool RequiresInput()
-		{
+        {
             return true;
-		}
+        }
 
         protected override bool DidDataChange()
         {
@@ -382,7 +382,7 @@ namespace SweetTokens
         public override bool TryValidateInput(string input, out string error)
         {
             error = "";
-			string[] args = input.ToLower().Trim().Split('|');
+            string[] args = input.ToLower().Trim().Split('|');
 
             if (args.Length == 1)
             {
@@ -420,7 +420,7 @@ namespace SweetTokens
                         }
                     }
                 }
-			}
+            }
             else
             {
                 error += "Incorrect number of arguments provided. An npc name is required. ";
@@ -438,9 +438,9 @@ namespace SweetTokens
         {
             List<string> output = new();
 
-			string[] args = input.Split('|');
+            string[] args = input.Split('|');
 
-			string suitorName = args[0].Substring(args[0].IndexOf('=') + 1).Trim().Replace(" ", "");
+            string suitorName = args[0].Substring(args[0].IndexOf('=') + 1).Trim().Replace(" ", "");
             output = TryFilterNames(suitorName);
 
             if (output.Count == 0)
@@ -453,7 +453,7 @@ namespace SweetTokens
         private List<string> TryFilterNames(string suitorName)
         {
             List<string> output = new();
-            
+
             foreach (NPC npc in cachedSuitors)
             {
                 if (npc.Name != suitorName)
@@ -484,8 +484,104 @@ namespace SweetTokens
                     //Globals.Monitor.Log($"{{npc.Name}} is not dating {Game1.player.Name}", LogLevel.Debug);
                     continue;
                 }
-                
+
                 suitors.Add(npc);
+            }
+        }
+    }
+    
+    //Returns the name of the current player's partner (spouse or fiance)
+    internal class PartnerToken : BaseToken
+    {
+        /// <summary>The list of suitors as of the last context update.</summary>
+        internal string partnerName = "";
+
+        public PartnerToken()
+        {
+        }
+        internal void Debug()
+        {
+            Globals.Monitor.Log($"Partner: {partnerName}", LogLevel.Debug);
+        }
+
+        /// <summary>Whether the token may return multiple values for the given input.</summary>
+        /// <param name="input">The input arguments, if applicable.</param>
+		public override bool CanHaveMultipleValues(string input = null)
+        {
+            return false;
+        }
+
+        public override bool RequiresInput()
+        {
+            return false;
+        }
+
+        protected override bool DidDataChange()
+        {
+            //Globals.Monitor.Log($"MaxHeartSuitorsToken: DidDataChange()", LogLevel.Debug);
+
+            bool hasChanged = false;
+            string partner = "";
+            GetPartner(ref partner);
+
+            //Globals.Monitor.Log($"suitors.Count: {suitors.Count}, cachedSuitors.Count: {cachedSuitors.Count}", LogLevel.Debug);
+
+            if (partner != partnerName)
+            {
+                hasChanged = true;
+                partnerName = partner;
+            }
+
+            //Globals.Monitor.Log($"suitors.Count: {suitors.Count}, cachedSuitors.Count: {cachedSuitors.Count}", LogLevel.Debug);
+            //Globals.Monitor.Log($"hasChanged: {hasChanged}", LogLevel.Debug);
+            return hasChanged;
+        }
+
+        public override bool TryValidateInput(string input, out string error)
+        {
+            error = "";
+            return error.Equals("");
+        }
+
+        /// <summary>Get the current values.</summary>
+        public override IEnumerable<string> GetValues(string input)
+        {
+            List<string> output = new();
+
+            bool found = (partnerName != "");
+            if (found)
+            {
+                output.Add(partnerName);
+            }
+            else
+            {
+                output.Add("null");
+            }
+
+            return output;
+        }
+
+        // get names
+        private void GetPartner(ref string partner)
+        {
+            //Globals.Monitor.Log($"RivalSuitors Token: GetSuitors() called", LogLevel.Debug);
+
+            Farmer farmer = Game1.player;
+            foreach (string name in farmer.friendshipData.Keys)
+            {
+                NPC npc = Game1.getCharacterFromName(name);
+                if (npc == null)
+                {
+                    continue;
+                }
+
+                Friendship friendship = farmer.friendshipData[name];
+                if (friendship.IsEngaged() || friendship.IsMarried())
+                {
+                    //Globals.Monitor.Log($"{{npc.Name}} is not dating {Game1.player.Name}", LogLevel.Debug);
+                    partner = npc.Name;
+                    break;
+                }
             }
         }
     }
