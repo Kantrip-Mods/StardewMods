@@ -156,8 +156,8 @@ namespace SweetActions
                 return false;
             }
 
-            string msg = Game1.player.Name + " and " + npc.displayName + " are no longer dating.";
-            Game1.showGlobalMessage(msg);
+            //string msg = Game1.player.Name + " and " + npc.displayName + " are no longer dating.";
+            //Game1.showGlobalMessage(msg);
             Game1.showGlobalMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Wilted_Bouquet_Effect", npc.displayName));
 
             friendship.Status = FriendshipStatus.Friendly;
