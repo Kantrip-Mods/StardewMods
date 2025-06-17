@@ -91,6 +91,18 @@ namespace SweetTokens
                 output.Add("null");
             }
             return output;
+
+            /* //not entirely sure why this isn't OK
+            if (output.Count == 0)
+            {
+                yield break;
+            }
+
+            foreach (string name in output)
+            {
+                yield return name;
+            }
+            */
         }
 
         // get names
@@ -489,7 +501,7 @@ namespace SweetTokens
             }
         }
     }
-    
+
     //Returns the name of the current player's partner (spouse or fiance)
     internal class PartnerToken : BaseToken
     {
@@ -546,19 +558,13 @@ namespace SweetTokens
         /// <summary>Get the current values.</summary>
         public override IEnumerable<string> GetValues(string input)
         {
-            List<string> output = new();
-
             bool found = (partnerName != "");
-            if (found)
+            if (!found)
             {
-                output.Add(partnerName);
-            }
-            else
-            {
-                output.Add("null");
+                yield break;
             }
 
-            return output;
+            yield return partnerName;
         }
 
         // get names
