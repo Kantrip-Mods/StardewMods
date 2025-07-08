@@ -45,6 +45,7 @@ namespace SweetTokens
         internal static MaxHeartSuitorsToken MaxHeartSuitorsToken { get; private set; } = new MaxHeartSuitorsToken();
         internal static RivalSuitorsToken RivalSuitorsToken { get; private set; } = new RivalSuitorsToken();
         internal static PartnerToken PartnerToken { get; private set; } = new PartnerToken();
+        internal static FianceeToken FianceeToken { get; private set; } = new FianceeToken();
 
         /*********
         ** Public methods
@@ -73,16 +74,17 @@ namespace SweetTokens
                 api.RegisterToken(Globals.Manifest, "MaxHeartSuitors", MaxHeartSuitorsToken);
                 api.RegisterToken(Globals.Manifest, "RivalSuitors", RivalSuitorsToken);
                 api.RegisterToken(Globals.Manifest, "Partner", PartnerToken);
+                api.RegisterToken(Globals.Manifest, "Fiancee", FianceeToken);
 
                 Globals.Monitor.Log($"Finished registering sweet tokens");
             }
         }
 
-        private void OnTimeChanged(object sender, TimeChangedEventArgs e)
-        {
-            SuitorsToken.Debug();
-            MaxHeartSuitorsToken.Debug();
-        }
+        //private void OnTimeChanged(object sender, TimeChangedEventArgs e)
+        //{
+            //SuitorsToken.Debug();
+            //MaxHeartSuitorsToken.Debug();
+        //}
 
         /// <summary>Initializes Global variables.</summary>
         /// <param name="helper" />
