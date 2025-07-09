@@ -31,21 +31,22 @@ namespace SweetTokens
         public static IManifest Manifest { get; set; }
         public static IModHelper Helper { get; set; }
         public static IMonitor Monitor { get; set; }
+        public static ModConfig Config { get; set; }
 	}
 
     /// <summary>The mod entry point.</summary>
     public class ModEntry : Mod
     {
 
-        internal ModConfig Config;
+        internal ModConfig config;
         internal static IModHelper help = null!;
-
         public static IContentPatcherAPI api = null;
         internal static SuitorsToken SuitorsToken { get; private set; } = new SuitorsToken();
         internal static MaxHeartSuitorsToken MaxHeartSuitorsToken { get; private set; } = new MaxHeartSuitorsToken();
         internal static RivalSuitorsToken RivalSuitorsToken { get; private set; } = new RivalSuitorsToken();
         internal static PartnerToken PartnerToken { get; private set; } = new PartnerToken();
         internal static FianceeToken FianceeToken { get; private set; } = new FianceeToken();
+        internal static BlackHeartSuitorToken BlackHeartSuitorToken { get; private set; } = new BlackHeartSuitorToken();
 
         /*********
         ** Public methods
@@ -56,7 +57,7 @@ namespace SweetTokens
         {
             help = helper;
 
-            this.Config = this.Helper.ReadConfig<ModConfig>();
+            this.config = this.Helper.ReadConfig<ModConfig>();
 
             SetUpGlobals(helper);
 
@@ -75,6 +76,7 @@ namespace SweetTokens
                 api.RegisterToken(Globals.Manifest, "RivalSuitors", RivalSuitorsToken);
                 api.RegisterToken(Globals.Manifest, "Partner", PartnerToken);
                 api.RegisterToken(Globals.Manifest, "Fiancee", FianceeToken);
+                api.RegisterToken(Globals.Manifest, "BlackHeartSuitor", BlackHeartSuitorToken);
 
                 Globals.Monitor.Log($"Finished registering sweet tokens");
             }
@@ -82,8 +84,8 @@ namespace SweetTokens
 
         //private void OnTimeChanged(object sender, TimeChangedEventArgs e)
         //{
-            //SuitorsToken.Debug();
-            //MaxHeartSuitorsToken.Debug();
+        //SuitorsToken.Debug();
+        //MaxHeartSuitorsToken.Debug();
         //}
 
         /// <summary>Initializes Global variables.</summary>
@@ -93,6 +95,7 @@ namespace SweetTokens
             Globals.Helper = helper;
             Globals.Monitor = Monitor;
             Globals.Manifest = ModManifest;
+            Globals.Config = this.config;
         }
     }
 }

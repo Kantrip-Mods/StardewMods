@@ -6,7 +6,7 @@
     "UniqueID": "Kantrip.SweetActions",
     "EntryDll": "SweetActions.dll",
     "MinimumApiVersion": "4.0.0",
-    "UpdateKeys": [""],
+    "UpdateKeys": ["Nexus:34789"],
     "Dependencies": [
         {
         "UniqueID": "Pathoschild.ContentPatcher",
