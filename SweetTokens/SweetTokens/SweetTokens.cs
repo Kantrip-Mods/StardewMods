@@ -79,31 +79,15 @@ namespace SweetTokens
         /// <summary>Get the current values.</summary>
         public override IEnumerable<string> GetValues(string input)
         {
-            List<string> output = new();
-
-            // get names
-            foreach (NPC npc in cachedSuitors)
-            {
-                output.Add(npc.Name);
-            }
-
-            if (output.Count == 0)
-            {
-                output.Add("null");
-            }
-            return output;
-
-            /* //not entirely sure why this isn't OK
-            if (output.Count == 0)
+            if( cachedSuitors.Count() == 0 )
             {
                 yield break;
             }
 
-            foreach (string name in output)
+            foreach( NPC npc in cachedSuitors )
             {
-                yield return name;
+                yield return npc.Name;
             }
-            */
         }
 
         // get names
@@ -256,11 +240,14 @@ namespace SweetTokens
             string type = args[0].Substring(args[0].IndexOf('=') + 1).Trim().ToLower().Replace(" ", "");
             output = TryFilterNames(type);
 
-            if (output.Count == 0)
+            if( output.Count == 0 )
             {
-                output.Add("null");
+                yield break;
             }
-            return output;
+            foreach( string nm in output )
+            {
+                yield return nm;
+            }
         }
 
         private List<string> TryFilterNames(string type)
@@ -458,9 +445,13 @@ namespace SweetTokens
 
             if (output.Count == 0)
             {
-                output.Add("null");
+                yield break;
             }
-            return output;
+
+            foreach (string npcName in output)
+            {
+                yield return npcName;
+            }
         }
 
         private List<string> TryFilterNames(string suitorName)
